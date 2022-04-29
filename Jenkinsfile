@@ -12,14 +12,14 @@ pipeline {
         //VERSION = readMavenPom().getVersion()
         def IMAGE = sh script: 'mvn help:evaluate -Dexpression=project.ArtifactId -q -DforceStdout', returnStdout: true
         def VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-        //ANSIBLE = tool name: 'Ansible', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+        //ANSIBLE = tool name: 'Ansible', type: 'com.cloudbees.jenkins.plugins.custotmtools.CusomTool'
     }
   
     stages {
         stage('Clear running apps') {
            steps {
                // Clear previous instances of app built
-               sh 'docker rm -f pandaapp || true'
+               sh 'docker rm -f jpapp || true'
            }
         }
         stage('Get Code') {
@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Run Docker app') {
             steps {
-                sh "docker run -d -p 0.0.0.0:8080:8080 --name pandaapp -t ${IMAGE}:${VERSION}"
+                sh "docker run -d -p 0.0.0.0:8080:8080 --name jpapp -t ${IMAGE}:${VERSION}"
             }
         }
         stage('Test Selenium') {
@@ -59,19 +59,19 @@ pipeline {
         stage('Run terraform') {
             steps {
                 dir('infrastructure/terraform') {                
-                    sh 'terraform init && terraform apply -var-file ./panda.tfvars -auto-approve '
+                    sh 'terraform init && terraform apply -var-file ./jpvars.tfvars -auto-approve '
                 } 
             }
         }
         stage('Copy Ansible role') {
                steps {
-                   sh 'cp -r infrastructure/ansible/panda/ /etc/ansible/roles/'
+                   sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
         }
         stage('Run Ansible') {
                steps {
                 dir('infrastructure/ansible') {                
-                    sh 'chmod 600 ../panda.pem'
+                    sh 'chmod 600 ../jp3.pem'
                     sh 'ansible-playbook -i ./inventory playbook.yml'
                 } 
             }
@@ -79,7 +79,7 @@ pipeline {
     }
     post { 
         always { 
-            sh 'docker stop pandaapp'
+            sh 'docker stop jpapp'
             deleteDir()
         }
     }
