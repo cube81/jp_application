@@ -5,14 +5,10 @@ pipeline {
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "auto_maven"
-        //terraform 'Terraform'
     }
     environment {
-        //IMAGE = readMavenPom().getArtifactId()
-        //VERSION = readMavenPom().getVersion()
         def IMAGE = sh script: 'mvn help:evaluate -Dexpression=project.ArtifactId -q -DforceStdout', returnStdout: true
         def VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-        //ANSIBLE = tool name: 'Ansible', type: 'com.cloudbees.jenkins.plugins.custotmtools.CusomTool'
     }
   
     stages {
@@ -55,26 +51,6 @@ pipeline {
                     sh "mvn -gs $MAVEN_GLOBAL_SETTINGS deploy -Dmaven.test.skip=true -e"
                 }
             } 
-        }
-        stage('Run terraform') {
-            steps {
-                dir('infrastructure/terraform') {                
-                    sh 'terraform init && terraform apply -var-file ./jpvars.tfvars -auto-approve '
-                } 
-            }
-        }
-        stage('Copy Ansible role') {
-               steps {
-                   sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
-                }
-        }
-        stage('Run Ansible') {
-               steps {
-                dir('infrastructure/ansible') {                
-                    sh 'chmod 600 ../jp3.pem'
-                    sh 'ansible-playbook -i ./inventory playbook.yml'
-                } 
-            }
         }
     }
     post { 
