@@ -5,14 +5,14 @@ pipeline {
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "auto_maven"
-        //terraform 'Terraform'
+        terraform 'Terraform'
     }
     environment {
         //IMAGE = readMavenPom().getArtifactId()
         //VERSION = readMavenPom().getVersion()
         def IMAGE = sh script: 'mvn help:evaluate -Dexpression=project.ArtifactId -q -DforceStdout', returnStdout: true
         def VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-        //ANSIBLE = tool name: 'Ansible', type: 'com.cloudbees.jenkins.plugins.custotmtools.CusomTool'
+        ANSIBLE = tool name: 'Ansible', type: 'com.cloudbees.jenkins.plugins.custotmtools.CusomTool'
     }
   
     stages {
