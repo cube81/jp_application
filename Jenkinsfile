@@ -12,7 +12,7 @@ pipeline {
         //VERSION = readMavenPom().getVersion()
         def IMAGE = sh script: 'mvn help:evaluate -Dexpression=project.ArtifactId -q -DforceStdout', returnStdout: true
         def VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-        ANSIBLE = tool name: 'Ansible', type: 'com.cloudbees.jenkins.plugins.custotmtools.CusomTool'
+        ANSIBLE = tool name: 'Ansible-xxxxxxxxxxx', type: 'com.cloudbees.jenkins.plugins.custotmtools.CusomTool'
     }
   
     stages {
@@ -95,11 +95,11 @@ pipeline {
 
     }
     post {
-
             success {
                 sh 'docker stop jpapp'
                 deleteDir()
             }
+
             failure {
                 dir('infrastructure/terraform') { 
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {

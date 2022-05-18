@@ -1,4 +1,4 @@
-package pl.pandait.panda;
+package pl.jp.jp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
