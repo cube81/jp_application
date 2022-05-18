@@ -16,9 +16,8 @@ pipeline {
     }
   
     stages {
-        stage('Clear running apps') {
+        stage('Clear running app') {
            steps {
-               // Clear previous instances of app built
                sh 'docker rm -f jpapp || true'
            }
         }
@@ -49,7 +48,7 @@ pipeline {
                 sh "mvn test -Pselenium"
             }
         }
-        stage('Deploy jar to artifactory') {
+        stage('Deploy jar to Artifactory') {
             steps {
                 configFileProvider([configFile(fileId: 'af103f09-255e-4cd9-be6c-c5bf6a20a9f5', variable: 'MAVEN_GLOBAL_SETTINGS')]) {
                     sh "mvn -gs $MAVEN_GLOBAL_SETTINGS deploy -Dmaven.test.skip=true -e"
@@ -58,13 +57,19 @@ pipeline {
         }
         stage('Run terraform') {
             steps {
-                dir('infrastructure/terraform') {                
-                    sh 'terraform init && terraform apply -var-file ./jpvars.tfvars -auto-approve '
+                dir('infrastructure/terraform') {
+                    withCredentials([file(credentialsId: 'AWS', variable: 'terraformjp')]) {
+                        sh "cp \$terraformjp ../jp3.pem"
+                    }
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'AWS']]){                
+                        sh 'terraform init && terraform apply -var-file ./jpvars.tfvars -auto-approve'
+                    }
                 } 
             }
         }
         stage('Copy Ansible role') {
                steps {
+                   sh 'sleep 180'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
         }
@@ -72,15 +77,37 @@ pipeline {
                steps {
                 dir('infrastructure/ansible') {                
                     sh 'chmod 600 ../jp3.pem'
-                    sh 'ansible-playbook -i ./inventory playbook.yml'
+                    sh 'ansible-playbook -i ./inventory playbook.yml -e ansible_python_interpreter=/usr/bin/python3'
                 } 
             }
         }
-    }
-    post { 
-        always { 
-            sh 'docker stop jpapp'
-            deleteDir()
+
+        stage('Removal of the AWS-VPC environment'){
+            steps{
+                input 'Remove environment'
+                dir('infrastructure/terraform'){
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'AWS']]){
+                                sh 'terraform destroy -auto-approve -var-file ./jpvars.tfvars'
+                            }
+                }
+            }
         }
+
     }
+    post {
+
+            success {
+                sh 'docker stop jpapp'
+                deleteDir()
+            }
+            failure {
+                dir('infrastructure/terraform') { 
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                        sh 'terraform destroy -auto-approve -var-file ./jpvars.tfvars'
+                    }
+                }
+                sh 'docker stop jpapp'
+                deleteDir()
+            }
+        }
 }
