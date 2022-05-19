@@ -62,15 +62,8 @@ pipeline {
                     withCredentials([file(credentialsId: 'awsjp3-pem', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp3.pem"
                     }
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){     
-                        if err == credentials.ErrNoValidProvidersFoundInChain {
-                            resp, reqErr := http.Get("http://169.254.169.254/")
-                            if reqErr != nil {
-                                fmt.Println("Unable to reach instance metadata service:", reqErr)
-                            }
-                            fmt.Println(resp)
-                            }
-        
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
+                        sh 'terraform plan -var-file ./jp.tfvars -auto-approve'     
                         sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
                     }
                 } 
