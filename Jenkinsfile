@@ -102,7 +102,7 @@ pipeline {
 
             failure {
                 dir('infrastructure/terraform') { 
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS']]) {
                         sh 'terraform destroy -auto-approve -var-file ./jpvars.tfvars'
                     }
                 }
