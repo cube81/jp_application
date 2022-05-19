@@ -59,11 +59,11 @@ pipeline {
             steps {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
-                    withCredentials([file(credentialsId: 'aws_creds_jp3', variable: 'terraformjp')]) {
+                    withCredentials([file(credentialsId: 'aws-jp3', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp3.pem"
                     }
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'aws_creds_jp3']]){                
-                        sh 'terraform apply -var-file ./jpvars.tfvars -auto-approve'
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'aws-jp3']]){                
+                        sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
                     }
                 } 
             }
@@ -87,8 +87,8 @@ pipeline {
             steps{
                 input 'Remove environment'
                 dir('infrastructure/terraform'){
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'aws_creds_jp3']]){
-                                sh 'terraform destroy -auto-approve -var-file ./jpvars.tfvars'
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'aws-jp3']]){
+                                sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                             }
                 }
             }
@@ -103,8 +103,8 @@ pipeline {
 
             failure {
                 dir('infrastructure/terraform') { 
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_creds_jp3']]) {
-                        sh 'terraform destroy -auto-approve -var-file ./jpvars.tfvars'
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-jp3']]) {
+                        sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                     }
                 }
                 sh 'docker stop jpapp'

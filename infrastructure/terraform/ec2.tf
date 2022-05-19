@@ -19,6 +19,15 @@ resource "aws_instance" "jp" {
 
 }
 
+#  provisioner "remote-exec" {
+#    inline = [
+#      "echo \"Hello, World ${self.public_ip}\" > index.html",
+#      "nohup busybox httpd -f -p 8080 &",
+#      "sleep 1",
+#    ]
+#  }
+#}
+
 resource "aws_security_group" "sg-pub" {
     vpc_id      = aws_vpc.vpc.id
 
@@ -49,4 +58,6 @@ resource "aws_security_group" "sg-pub" {
         protocol        = "tcp"
         cidr_blocks     = ["0.0.0.0/0"]
     }
+
+    
 }
