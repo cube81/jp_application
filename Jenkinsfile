@@ -67,7 +67,7 @@ pipeline {
                         sh 'pwd'
                         sh 'ls -la'
                         println "---------------------------------------------------------"           
-                        sh 'terraform apply -var-file jp.tfvars -auto-approve'
+                        sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
                     }
                 } 
             }
@@ -92,7 +92,7 @@ pipeline {
                 input 'Remove environment'
                 dir('infrastructure/terraform'){
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){
-                                sh 'terraform destroy -auto-approve -var-file jp.tfvars'
+                                sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                             }
                 }
             }
@@ -108,7 +108,7 @@ pipeline {
             failure {
                 dir('infrastructure/terraform') { 
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'awsjp3-akid']]) {
-                        sh 'terraform destroy -auto-approve -var-file jp.tfvars'
+                        sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                     }
                 }
                 sh 'docker stop jpapp'
