@@ -58,11 +58,12 @@ pipeline {
         stage('Run terraform') {
             steps {
                 dir('infrastructure/terraform') {
+                    sh 'terraform init'
                     withCredentials([file(credentialsId: 'AWS', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp3.pem"
                     }
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'AWS']]){                
-                        sh 'terraform init && terraform apply -var-file ./jpvars.tfvars -auto-approve'
+                        sh 'terraform apply -var-file ./jpvars.tfvars -auto-approve'
                     }
                 } 
             }
