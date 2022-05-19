@@ -63,7 +63,7 @@ pipeline {
                         sh "cp \$terraformjp ../jp3.pem"
                     }
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
-                        sh 'terraform plan -var-file ./jp.tfvars -auto-approve'     
+                        sh 'terraform plan'     
                         sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
                     }
                 } 
