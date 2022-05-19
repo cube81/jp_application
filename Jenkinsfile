@@ -59,10 +59,10 @@ pipeline {
             steps {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
-                    withCredentials([file(credentialsId: 'AWS', variable: 'terraformjp')]) {
+                    withCredentials([file(credentialsId: 'aws_creds_jp3', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp3.pem"
                     }
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'AWS']]){                
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'aws_creds_jp3']]){                
                         sh 'terraform apply -var-file ./jpvars.tfvars -auto-approve'
                     }
                 } 
@@ -87,7 +87,7 @@ pipeline {
             steps{
                 input 'Remove environment'
                 dir('infrastructure/terraform'){
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'AWS']]){
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'aws_creds_jp3']]){
                                 sh 'terraform destroy -auto-approve -var-file ./jpvars.tfvars'
                             }
                 }
@@ -103,7 +103,7 @@ pipeline {
 
             failure {
                 dir('infrastructure/terraform') { 
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS']]) {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_creds_jp3']]) {
                         sh 'terraform destroy -auto-approve -var-file ./jpvars.tfvars'
                     }
                 }
