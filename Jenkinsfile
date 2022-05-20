@@ -71,7 +71,7 @@ pipeline {
         }
         stage('Copy Ansible role') {
                steps {
-                   sh 'sleep 5'
+                   sh 'sleep 180'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
         }
