@@ -27,7 +27,16 @@ pipeline {
                 checkout scm
             }
         }
-
+        stage('Run terraform') {
+            steps {
+                dir('infrastructure/terraform') {
+                    sh 'terraform init'
+                    withCredentials([file(credentialsId: 'awsjp3-pem', variable: 'terraformjp')]) {
+                        sh "cp \$terraformjp ../jp3.pem"
+                    }
+                } 
+            }
+        }
 
         stage('Copy Ansible role') {
                steps {
