@@ -79,6 +79,12 @@ pipeline {
                steps {
                 dir('infrastructure/ansible') {                
                     sh 'chmod 600 ../jp3.pem'
+                    sh 'ls -l '
+                    println '===========================!!!!!!!!!!!!!!!!!!!!!!!!!!'
+                    sh 'ls -l ../'
+                    println '===========================!!!!!!!!!!!!!!!!!!!!!!!!!!'
+                    sh 'cat ./inventory'
+                    println '===========================!!!!!!!!!!!!!!!!!!!!!!!!!!'
                     sh 'ansible-playbook -i ./inventory playbook.yml -e ansible_python_interpreter=/usr/bin/python3'
                 } 
             }
