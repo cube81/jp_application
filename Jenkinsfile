@@ -59,7 +59,7 @@ pipeline {
             steps {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
-                    withCredentials([file(credentialsId: 'awsjp3-pem', variable: 'terraformjp')]) {
+                    withCredentials([file(credentialsId: 'awsjp4-pem', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp3.pem"
                     }
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
@@ -78,7 +78,7 @@ pipeline {
         stage('Run Ansible') {
                steps {
                 dir('infrastructure/ansible') {                
-                    sh 'chmod 600 ../jp3.pem'
+                    sh 'chmod 600 ../jp4.pem'
                     sh 'ls -l '
                     println '===========================!!!!!!!!!!!!!!!!!!!!!!!!!!'
                     sh 'ls -l ../'
