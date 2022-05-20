@@ -61,12 +61,28 @@ pipeline {
                     sh 'terraform init'
                     withCredentials([file(credentialsId: 'awsjp3-pem', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp3.pem"
+                    }
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
+                        //sh 'terraform plan -var-file ./jp.tfvars'     
                         sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
                     }
                 } 
             }
         }
-
+        stage('Copy Ansible role') {
+               steps {
+                   sh 'sleep 180'
+                   sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
+                }
+        }
+        stage('Run Ansible') {
+               steps {
+                dir('infrastructure/ansible') {                
+                    sh 'chmod 600 ../jp3.pem'
+                    sh 'ansible-playbook -i ./inventory playbook.yml -e ansible_python_interpreter=/usr/bin/python3'
+                } 
+            }
+        }
 
         stage('Removal of the AWS-VPC environment'){
             steps{
