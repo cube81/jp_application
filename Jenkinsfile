@@ -60,7 +60,7 @@ pipeline {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
                     withCredentials([file(credentialsId: 'awsjp4-pem', variable: 'terraformjp')]) {
-                        sh "cp \$terraformjp ../jp3.pem"
+                        sh "cp \$terraformjp ../jp4.pem"
                     }
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
                         //sh 'terraform plan -var-file ./jp.tfvars'     
