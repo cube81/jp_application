@@ -104,6 +104,7 @@ pipeline {
 
             failure {
                 dir('infrastructure/terraform') { 
+                    input 'Remove environment'
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'awsjp3-akid']]) {
                         sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                     }
