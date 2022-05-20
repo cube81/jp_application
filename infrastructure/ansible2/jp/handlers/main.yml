@@ -1,0 +1,8 @@
+---
+- name: Start apki
+  service:
+    name: application
+    state: restarted
+  become: true
+
+# handlers file for jp
