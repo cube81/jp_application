@@ -26,6 +26,13 @@ pipeline {
             steps {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){
+                                sh 'cat ./jp.tfvars'
+                                sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
+
+                            }
+
+
                     withCredentials([file(credentialsId: 'awsjp3-pem', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp3.pem"
                         sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
