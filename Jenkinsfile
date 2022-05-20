@@ -33,12 +33,14 @@ pipeline {
                steps {
                    sh 'sleep 10'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
+                   sh 'ls /etc/ansible/roles/'
                 }
         }
         stage('Run Ansible') {
                steps {
                 dir('infrastructure/ansible') {                
                     sh 'chmod 600 ../jp3.pem'
+                    sh 'ls -la'
                     sh 'ansible-playbook -i ./inventory playbook.yml -e ansible_python_interpreter=/usr/bin/python3'
                 } 
             }
