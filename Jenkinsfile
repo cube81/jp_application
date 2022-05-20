@@ -27,48 +27,8 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build and Junit') {
-            steps {
-                // Run Maven on a Unix agent.
-                sh "mvn clean install"
-            }
-        }
-        stage('Build Docker image'){
-            steps {
-                sh "mvn package -Pdocker"
-            }
-        }
-        stage('Run Docker app') {
-            steps {
-                sh "docker run -d -p 0.0.0.0:8080:8080 --name jpapp -t ${IMAGE}:${VERSION}"
-            }
-        }
-        stage('Test Selenium') {
-            steps {
-                sh "mvn test -Pselenium"
-            }
-        }
-        stage('Deploy jar to Artifactory') {
-            steps {
-                configFileProvider([configFile(fileId: 'af103f09-255e-4cd9-be6c-c5bf6a20a9f5', variable: 'MAVEN_GLOBAL_SETTINGS')]) {
-                    sh "mvn -gs $MAVEN_GLOBAL_SETTINGS deploy -Dmaven.test.skip=true -e"
-                }
-            } 
-        }
-        stage('Run terraform') {
-            steps {
-                dir('infrastructure/terraform') {
-                    sh 'terraform init'
-                    withCredentials([file(credentialsId: 'awsjp3-pem', variable: 'terraformjp')]) {
-                        sh "cp \$terraformjp ../jp3.pem"
-                    }
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
-                        //sh 'terraform plan -var-file ./jp.tfvars'     
-                        sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
-                    }
-                } 
-            }
-        }
+
+
         stage('Copy Ansible role') {
                steps {
                    sh 'sleep 10'
