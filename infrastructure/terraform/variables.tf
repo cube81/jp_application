@@ -10,5 +10,5 @@ variable "aws_key_name" {
 
 variable "ssh_key_path" {
   type        = string
-  description = "/home/jp/.ssh/jp3.pem"
+  description = "../jp3.pem"
 }
