@@ -75,16 +75,10 @@ pipeline {
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
         }
-        stage('Run Ansible') {
+        stage('Execute Ansible role') {
                steps {
                 dir('infrastructure/ansible') {                
                     sh 'chmod 600 ../jp4.pem'
-                    sh 'ls -l '
-                    println '===========================!!!!!!!!!!!!!!!!!!!!!!!!!!'
-                    sh 'ls -l ../'
-                    println '===========================!!!!!!!!!!!!!!!!!!!!!!!!!!'
-                    sh 'cat ./inventory'
-                    println '===========================!!!!!!!!!!!!!!!!!!!!!!!!!!'
                     sh 'ansible-playbook -i ./inventory playbook.yml -e ansible_python_interpreter=/usr/bin/python3'
                 } 
             }
@@ -100,7 +94,6 @@ pipeline {
                 }
             }
         }
-
     }
     post {
             success {
