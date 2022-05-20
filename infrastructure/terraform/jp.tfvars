@@ -1,2 +1,2 @@
-aws_key_name = "awsjp3-pem"
+aws_key_name = "jp3"
 ssh_key_path = "../jp3.pem"
