@@ -55,7 +55,17 @@ pipeline {
                 }
             } 
         }
-        stage('Run terraform') {
+
+        stage('Init Terraform') {
+            steps {
+                dir('infrastructure/terraform') {
+                    sh 'terraform init'
+                } 
+            }
+        }
+
+
+        stage('Terraform build AWS-VPC environment') {
             steps {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
