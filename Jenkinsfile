@@ -65,7 +65,7 @@ pipeline {
         }
 
 
-        stage('Terraform build AWS-VPC environment') {
+        stage('Terraform build AWS-VPC') {
             steps {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
