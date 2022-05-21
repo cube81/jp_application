@@ -119,7 +119,7 @@ pipeline {
                     }
                 }
                 sh 'docker stop jpapp'
-                //deleteDir()
+                deleteDir()
             }
         }
 }
