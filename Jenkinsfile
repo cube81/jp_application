@@ -82,7 +82,9 @@ pipeline {
         stage('Copy Ansible role') {
                steps {
                    dir('infrastructure/ansible') {
+                       println "=================== AWS EC2 IPs ==================="
                        sh 'cat inventory'
+                       println "==================================================="
                    }
                    sh 'sleep 180'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'

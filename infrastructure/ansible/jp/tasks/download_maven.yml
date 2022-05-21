@@ -3,7 +3,7 @@
   #become: true
   apt:
     pkg:
-      - python-dev
+      - python-dev-is-python3
       - libxml2
       - libxml2-dev
       - libxslt1-dev
