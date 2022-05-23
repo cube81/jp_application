@@ -8,12 +8,12 @@
   apt:
     pkg:
       - python-dev-is-python3
-      - libxml2
-      - libxml2-dev
-      - libxslt1-dev
-      - lib32z1-dev
-      - libssl-dev
-      - zlib1g-dev
+      #- libxml2
+      #- libxml2-dev
+      #- libxslt1-dev
+      #- lib32z1-dev
+      #- libssl-dev
+      #- zlib1g-dev
       - python-pip
       - python3-pip
       - python3-setuptools
