@@ -1,4 +1,8 @@
 ---
+- name: Update apt-get repo and cache
+  apt: upgrade=dist force_apt_get=yes
+  become: true
+
 - name: Instalacja lxml + inne
   #become: true
   apt:
@@ -10,7 +14,8 @@
       - lib32z1-dev
       - libssl-dev
       - zlib1g-dev
-      #- python-pip
+      - python-pip
+      - python3-pip
       - python3-setuptools
   become: true
   register: apt_action
