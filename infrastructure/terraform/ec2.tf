@@ -1,6 +1,9 @@
 resource "aws_instance" "jp" {
   count                  = length(var.availability_zones)
-  ami                    = "ami-04505e74c0741db8d"
+  #ami                    = "ami-04505e74c0741db8d"
+  ami                    = "ami-09d56f8956ab235b3"
+ # ami-044a2e09b04936759
+
   instance_type          = "t2.micro"
   availability_zone      = var.availability_zones[count.index]
   key_name               = var.aws_key_name
