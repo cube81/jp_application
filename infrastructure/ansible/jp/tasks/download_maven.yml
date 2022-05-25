@@ -8,7 +8,6 @@
   become: true
   
 - name: Instalacja python i pip
-  become: true
   apt:
     pkg:
       - python3-dev
@@ -20,6 +19,7 @@
       #- zlib1g-dev
       - python3-pip
   connection: local
+  become: true
 
 - name: Instalacja lxml + inne
   command: "pip install lxml"
