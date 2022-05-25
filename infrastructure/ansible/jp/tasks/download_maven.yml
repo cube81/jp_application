@@ -8,23 +8,18 @@
   become: true
   
 - name: Instalacja lxml + inne
-  #become: true
+  become: true
   apt:
     pkg:
-      - python-dev-is-python3
-      #- libxml2
-      #- libxml2-dev
-      #- libxslt1-dev
-      #- lib32z1-dev
-      #- libssl-dev
-      #- zlib1g-dev
-      - python-pip
+      - python3-dev
+      - libxml2
+      - libxml2-dev
+      - libxslt1-dev
+      - lib32z1-dev
+      - libssl-dev
+      - zlib1g-dev
       - python3-pip
-      - python3-setuptools
-  become: true
-  register: apt_action
-  retries: 100
-  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+  connection: local
 - name: install lxml
   command: "pip install lxml"
   environment:
