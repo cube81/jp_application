@@ -20,11 +20,13 @@
       #- zlib1g-dev
       - python3-pip
   connection: local
+
 - name: install lxml
   command: "pip install lxml"
   environment:
     CFLAGS: "-O0"
   connection: local
+  become: true
 
 - name: Pobranie apki z artifactory
   maven_artifact:
