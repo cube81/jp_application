@@ -8,7 +8,7 @@
   become: true
   
 - name: Install python pip
-  debugger: always
+  #debugger: always
   apt:
     pkg:
       - python3-dev
@@ -23,7 +23,7 @@
   become: true
 
 - name: Install Python Libs
-  debugger: always
+  #debugger: always
   apt:
     pkg:
       - libxml2
@@ -36,7 +36,6 @@
   become: true
 
 - name: Install fucking lxml
-  debugger: always
   command: "pip3 install lxml"
   environment:
     CFLAGS: "-O0"
