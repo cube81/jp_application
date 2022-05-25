@@ -49,5 +49,6 @@
     repository_url: "{{ repository_url }}"
     username: "{{ username }}"
     password: "{{ password }}"
-    dest: "{{ artifact_name }}"
+    #dest: "{{ artifact_name }}"
+    dest: "0.0.3-SNAPSHOT"
   connection: local
