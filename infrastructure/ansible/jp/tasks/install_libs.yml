@@ -45,10 +45,9 @@
 - name: Download app from Artifactory
   maven_artifact:
     group_id: pl.jp
-    artifact_id: jp
+    artifact_id: jpapp
     repository_url: "{{ repository_url }}"
     username: "{{ username }}"
     password: "{{ password }}"
-    #dest: "{{ artifact_name }}"
-    dest: "0.0.3-SNAPSHOT"
+    dest: "{{ artifact_name }}"
   connection: local

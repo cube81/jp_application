@@ -1,5 +1,5 @@
 ---
-- name: Start apki
+- name: App start
   service:
     name: application
     state: restarted

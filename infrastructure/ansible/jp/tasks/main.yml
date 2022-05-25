@@ -14,8 +14,9 @@
     owner: ubuntu
     group: ubuntu
     mode: '0644'
+#handler call:
   notify:
-  - Start apki
+  - App start
 
 - name: Create app service on ec2
   copy:
