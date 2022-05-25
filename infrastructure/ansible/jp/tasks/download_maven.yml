@@ -7,7 +7,7 @@
   apt: upgrade=dist force_apt_get=yes
   become: true
   
-- name: Instalacja lxml + inne
+- name: Instalacja python i pip
   become: true
   apt:
     pkg:
@@ -21,7 +21,7 @@
       - python3-pip
   connection: local
 
-- name: install lxml
+- name: Instalacja lxml + inne
   command: "pip install lxml"
   environment:
     CFLAGS: "-O0"
