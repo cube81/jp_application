@@ -55,6 +55,7 @@ pipeline {
     }
     post { 
         always { 
+            input 'Docker stop jp aap'
             sh 'docker stop jpapp'
             deleteDir()
         }
