@@ -87,6 +87,13 @@ pipeline {
                        println "==================================================="
                    }
                    sh 'mkdir -pv /etc/ansible/roles/'
+                   //DIR="/etc/ansible/"
+                    //if not [ -d "$DIR" ]; then
+                    //mkdir -pv /etc/ansible/roles/
+                    //else
+                    //echo "Directory already exists"
+                    //fi
+
                    sh 'sleep 180'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
