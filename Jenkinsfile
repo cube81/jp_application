@@ -86,6 +86,7 @@ pipeline {
                        sh 'cat inventory'
                        println "==================================================="
                    }
+                   sh 'mkdir -pv /etc/ansible/roles/'
                    sh 'sleep 180'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
