@@ -94,7 +94,7 @@ pipeline {
                     //echo "Directory already exists"
                     //fi
 
-                   sh 'sleep 180'
+                   sh 'sleep 90'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
         }
