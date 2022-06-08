@@ -21,16 +21,16 @@ resource "aws_instance" "jp" {
 
   user_data = <<EOF
       #!/bin/bash 
-      visudo >> ubuntu ALL=NOPASSWD: /usr/bin/apt-get install
-      visudo >> ubuntu ALL=NOPASSWD: /var/lib/dpkg/lock-frontend
-      sudo chown  ubuntu: /var/lib/dpkg/lock-frontend
-      chmod  u+w /var/lib/dpkg/lock-frontend
-      sudo chown ubuntu: /var/lib/dpkg/lock
-      chmod  u+w /var/lib/dpkg/lock
-      sudo chown  ubuntu: /var/cache/apt/archives/lock
-      chmod  u+w /var/cache/apt/archives/lock
-      sudo chown  %ubuntu:  /var/lib/apt/lists/lock
-      chmod  u+w  /var/lib/apt/lists/lock
+      echo "ubuntu ALL=NOPASSWD: /usr/bin/apt-get install" >> /etc/sudoers
+      echo "ubuntu ALL=NOPASSWD: /var/lib/dpkg/lock-frontend" >> /etc/sudoers
+      sudo chown ubuntu /var/lib/dpkg/lock-frontend
+      chmod u+w /var/lib/dpkg/lock-frontend
+      sudo chown ubuntu /var/lib/dpkg/lock
+      chmod u+w /var/lib/dpkg/lock
+      sudo chown  ubuntu /var/cache/apt/archives/lock
+      chmod u+w /var/cache/apt/archives/lock
+      sudo chown ubuntu /var/lib/apt/lists/lock
+      chmod u+w /var/lib/apt/lists/lock
     EOF
 }
 
