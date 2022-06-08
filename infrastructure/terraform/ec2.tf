@@ -19,12 +19,19 @@ resource "aws_instance" "jp" {
     private_key = file(var.ssh_key_path)
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "echo \" ==========================!!!!!!!!!!!!!!!!!===============================\" ",
-    ]
-  }
-
+  user_data = <<EOF
+      #!/bin/bash 
+      visudo >> ubuntu ALL=NOPASSWD: /usr/bin/apt-get install
+      visudo >> ubuntu ALL=NOPASSWD: /var/lib/dpkg/lock-frontend
+      sudo chown  ubuntu: /var/lib/dpkg/lock-frontend
+      chmod  u+w /var/lib/dpkg/lock-frontend
+      sudo chown ubuntu: /var/lib/dpkg/lock
+      chmod  u+w /var/lib/dpkg/lock
+      sudo chown  ubuntu: /var/cache/apt/archives/lock
+      chmod  u+w /var/cache/apt/archives/lock
+      sudo chown  %ubuntu:  /var/lib/apt/lists/lock
+      chmod  u+w  /var/lib/apt/lists/lock
+    EOF
 }
 
 #  provisioner "remote-exec" {
