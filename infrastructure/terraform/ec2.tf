@@ -31,15 +31,6 @@ resource "aws_instance" "jp" {
 #  }
 #}
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update",
-      "nohup busybox httpd -f -p 8080 &",
-      "sleep 1",
-    ]
-  }
-}
-
 resource "aws_security_group" "sg-pub" {
   vpc_id = aws_vpc.vpc.id
 
