@@ -20,6 +20,12 @@ resource "aws_instance" "jp" {
     private_key = file(var.ssh_key_path)
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "echo \" ==========================!!!!!!!!!!!!!!!!!===============================\" ",
+    ]
+  }
+
 }
 
 #  provisioner "remote-exec" {
