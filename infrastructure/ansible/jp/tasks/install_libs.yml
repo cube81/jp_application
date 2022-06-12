@@ -8,14 +8,18 @@
   become: true
   
 - name: Install python pip
+  become: true
   apt:
     pkg:
       - python3-dev
       - python3-pip
   connection: local
-  become: true
+  register: apt_action
+  retries: 100
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
 - name: Install Python Libs
+  become: true
   apt:
     pkg:
       - libxml2
@@ -25,7 +29,9 @@
       - libssl-dev
       - zlib1g-dev
   connection: local
-  become: true
+  register: apt_action
+  retries: 100
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
 - name: Install fucking lxml
   command: "pip3 install lxml"
