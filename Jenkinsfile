@@ -87,7 +87,7 @@ pipeline {
                        println "==================================================="
                    }
                    sh 'mkdir -pv /etc/ansible/roles/'
-                   sh 'sleep 90'
+                   //sh 'sleep 90'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
         }
