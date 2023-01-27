@@ -5,10 +5,10 @@ variable "availability_zones" {
 
 variable "aws_key_name" {
   type        = string
-  description = "jp3"
+  description = "jp-andersen"
 }
 
 variable "ssh_key_path" {
   type        = string
-  description = "../jp3.pem"
+  description = "../jp-andersen.pem"
 }
