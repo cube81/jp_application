@@ -10,6 +10,12 @@
 - name: Waiting for previous processes are finished
   pause:
     minutes: 1
+
+- name: Correction of dmg dpgk
+  become: true
+#  become_method: sudo
+  command: "dpkg --configure -a"
+    
   
 - name: Install python pip
   become: true
@@ -23,6 +29,11 @@
   register: apt_action
   retries: 100
   until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+
+- name: Correction of dmg dpgk
+  become: true
+#  become_method: sudo
+  command: "dpkg --configure -a"
 
 - name: Install Python Libs
   become: true
