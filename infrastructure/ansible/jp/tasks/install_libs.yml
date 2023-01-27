@@ -9,7 +9,7 @@
 
 - name: Waiting for previous processes are finished
   pause:
-    minutes: 2
+    minutes: 1
   
 - name: Install python pip
   become: true
