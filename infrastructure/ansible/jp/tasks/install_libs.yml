@@ -13,7 +13,7 @@
   
 - name: Install python pip
   become: true
-  become_method: sudo
+#  become_method: sudo
   apt:
     pkg:
       - python3-apt
