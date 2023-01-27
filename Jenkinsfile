@@ -73,7 +73,6 @@ pipeline {
                         sh "cp \$terraformjp ../jp3.pem"
                     }
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
-                        //sh 'terraform plan -var-file ./jp.tfvars'     
                         sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
                     }
                 } 
@@ -94,7 +93,7 @@ pipeline {
         stage('Execute Ansible role') {
                steps {
                 dir('infrastructure/ansible') {                
-                    sh 'chmod 600 ../jp4.pem'
+                    sh 'chmod 600 ../jp3.pem'
                     sh 'ansible-playbook -i ./inventory playbook.yml -e ansible_python_interpreter=/usr/bin/python3'
                     //sh 'ansible-playbook -i ./inventory playbook.yml'
                 } 
