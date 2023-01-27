@@ -70,7 +70,7 @@ pipeline {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
                     withCredentials([file(credentialsId: 'awsjp4-pem', variable: 'terraformjp')]) {
-                        sh "cp \$terraformjp ../jp4.pem"
+                        sh "cp \$terraformjp ../jp3.pem"
                     }
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'awsjp3-akid']]){  
                         //sh 'terraform plan -var-file ./jp.tfvars'     
@@ -87,7 +87,7 @@ pipeline {
                        println "==================================================="
                    }
                    sh 'mkdir -pv /etc/ansible/roles/'
-                   //sh 'sleep 90'
+                   sh 'sleep 30'
                    sh 'cp -r infrastructure/ansible/jp/ /etc/ansible/roles/'
                 }
         }
