@@ -1,2 +1,2 @@
-aws_key_name = "jp-andersen"
-ssh_key_path = "../jp3.pem"
+aws_key_name = "jp-drmax"
+ssh_key_path = "../jp-max.pem"
