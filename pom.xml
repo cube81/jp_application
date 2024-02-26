@@ -11,7 +11,7 @@
   </parent>
   <groupId>pl.jp</groupId>
   <artifactId>jpapp</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>jp</name>
   <description>Demo project for Spring Boot</description>
 
