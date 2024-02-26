@@ -5,7 +5,7 @@ variable "availability_zones" {
 
 variable "aws_key_name" {
   type        = string
-  description = "jp-max"
+  description = "jp-drmax"
 }
 
 variable "ssh_key_path" {
