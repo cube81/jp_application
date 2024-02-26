@@ -16,10 +16,10 @@
 #  become_method: sudo
 #  command: "dpkg --configure -a"
     
-- name: Install tzdata
-  become: true
-  become_method: sudo
-  command: "apt-get -y install tzdata"
+#- name: Install tzdata
+#  become: true
+#  become_method: sudo
+#  command: "apt-get -y install tzdata"
 
 
 #- name: Remove apt lock file
