@@ -26,6 +26,12 @@
 #  become_method: sudo
 #  command: "dpkg --configure -a"
 
+
+- name: Remove apt lock file
+  file:
+    state: absent
+    path: "/var/lib/dpkg/lock"
+
 - name: Install python pip
   become: true
   become_method: sudo
@@ -33,7 +39,7 @@
     pkg:
       - python3-pip
       - python3-dev
-#      - python3-apt
+      - python3-apt
   connection: local
   register: apt_action
   retries: 100
@@ -45,6 +51,11 @@
   become: true
 #  become_method: sudo
   command: "dpkg --configure -a"
+
+- name: Remove apt lock file 2
+  file:
+    state: absent
+    path: "/var/lib/dpkg/lock"
 
 - name: Install Python Libs
   become: true
