@@ -73,7 +73,7 @@ pipeline {
                     withCredentials([file(credentialsId: 'jp-drmax', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp-max.pem"
                     }
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'jp-drmax-key']]){  
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'jp-drmax']]){  
                         sh 'terraform apply -var-file ./jp.tfvars -auto-approve'
                     }
                 } 
@@ -105,7 +105,7 @@ pipeline {
             steps{
                 input 'Remove environment'
                 dir('infrastructure/terraform'){
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'jp-drmax-key']]){
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'jp-drmax']]){
                                 sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                             }
                 }
