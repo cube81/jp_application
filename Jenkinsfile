@@ -69,7 +69,7 @@ pipeline {
             steps {
                 dir('infrastructure/terraform') {
                     sh 'terraform init'
-                    withCredentials([file(credentialsId: '1jp-drmax', variable: 'terraformjp')]) {
+                    withCredentials([file(credentialsId: 'jp-drmax-key', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp-max.pem"
                     }
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: '2jp-drmax']]){  
