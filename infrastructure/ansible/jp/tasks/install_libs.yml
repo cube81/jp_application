@@ -20,15 +20,34 @@
   become: true
 #  become_method: sudo
   command: "apt-get -y install tzdata"
-  
+
+- name: Correction of dmg dpgk
+  become: true
+#  become_method: sudo
+  command: "dpkg --configure -a"
+
 - name: Install python pip
   become: true
   become_method: sudo
   apt:
     pkg:
       - python3-pip
-      - python3-apt
       - python3-dev
+  connection: local
+  register: apt_action
+  retries: 100
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+  
+- name: Correction of dmg dpgk
+  become: true
+#  become_method: sudo
+  command: "dpkg --configure -a"
+  
+- name: Install python apt
+  become: true
+  become_method: sudo
+  apt:
+      - python3-apt
   connection: local
   register: apt_action
   retries: 100
