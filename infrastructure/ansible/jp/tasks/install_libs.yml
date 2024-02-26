@@ -1,15 +1,15 @@
 ---
-- name: Update apt-get repo and cache
-  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
-  become: true
+#- name: Update apt-get repo and cache
+#  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+#  become: true
 
-- name: Upgrade all packages on servers
-  apt: upgrade=dist force_apt_get=yes
-  become: true
+#- name: Upgrade all packages on servers
+#  apt: upgrade=dist force_apt_get=yes
+#  become: true
 
-- name: Waiting for previous processes are finished
-  pause:
-    minutes: 3
+#- name: Waiting for previous processes are finished
+#  pause:
+#    minutes: 1
 
 #- name: Correction of dmg dpgk
 #  become: true
@@ -40,11 +40,6 @@
   retries: 100
   until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
-
-- name: Remove apt lock file 2
-  file:
-    state: absent
-    path: "/var/lib/dpkg/lock"
 
 - name: Install Python Libs
   become: true
