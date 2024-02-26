@@ -3,28 +3,23 @@
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
   become: true
 
-#- name: Upgrade all packages on servers
-#  apt: upgrade=dist force_apt_get=yes
-#  become: true
+- name: Upgrade all packages on servers
+  apt: upgrade=dist force_apt_get=yes
+  become: true
 
 - name: Waiting for previous processes are finished
   pause:
-    minutes: 1
+    minutes: 3
 
 #- name: Correction of dmg dpgk
 #  become: true
 #  become_method: sudo
 #  command: "dpkg --configure -a"
     
-#- name: Install tzdata
-#  become: true
-#  become_method: sudo
-#  command: "apt-get -y install tzdata"
-
-- name: Correction of dmg dpgk
+- name: Install tzdata
   become: true
   become_method: sudo
-  command: "rm -rf /var/lib/dpkg/lock"
+  command: "apt-get -y install tzdata"
 
 
 #- name: Remove apt lock file
