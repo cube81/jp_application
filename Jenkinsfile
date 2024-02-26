@@ -68,7 +68,6 @@ pipeline {
         stage('Terraform build AWS-VPC') {
             steps {
                 dir('infrastructure/terraform') {
-                    input 'gogogogogogogoggoogogog environment'
                     sh 'terraform init'
                     withCredentials([file(credentialsId: 'jp-drmax', variable: 'terraformjp')]) {
                         sh "cp \$terraformjp ../jp-max.pem"
