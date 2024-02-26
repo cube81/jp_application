@@ -104,7 +104,7 @@ pipeline {
             steps{
                 input 'Remove environment'
                 dir('infrastructure/terraform'){
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: '3jp-drmax']]){
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'jp-drmax-key']]){
                                 sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                             }
                 }
@@ -120,7 +120,7 @@ pipeline {
             failure {
                 dir('infrastructure/terraform') { 
                     input 'Remove environment'
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: '4jp-drmax-key']]) {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'jp-drmax-key']]) {
                         sh 'terraform destroy -auto-approve -var-file ./jp.tfvars'
                     }
                 }
