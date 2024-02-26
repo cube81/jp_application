@@ -22,10 +22,16 @@
 #  command: "apt-get -y install tzdata"
 
 
-#- name: Remove apt lock file
-#  file:
-#    state: absent
-#    path: "/var/lib/dpkg/lock"
+- name: Remove apt lock file
+  file:
+    state: absent
+    path: "/var/lib/dpkg/lock"
+
+- name: Remove apt lock file 2
+  file:
+    state: absent
+    path: "/var/lib/dpkg/lock-frontend"
+    
 
 - name: Install python pip
   become: true
