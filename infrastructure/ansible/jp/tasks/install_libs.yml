@@ -7,9 +7,9 @@
 #  apt: upgrade=dist force_apt_get=yes
 #  become: true
 
-#- name: Waiting for previous processes are finished
-#  pause:
-#    minutes: 1
+- name: Waiting for previous processes are finished
+  pause:
+    minutes: 1
 
 #- name: Correction of dmg dpgk
 #  become: true
@@ -22,15 +22,16 @@
 #  command: "apt-get -y install tzdata"
 
 
-- name: Remove apt lock file
-  file:
-    state: absent
-    path: "/var/lib/dpkg/lock"
+#- name: Remove apt lock file
+#  become_method: sudo
+#  file:
+#    state: absent
+#    path: "/var/lib/dpkg/lock"
 
-- name: Remove apt lock file 2
-  file:
-    state: absent
-    path: "/var/lib/dpkg/lock-frontend"
+#- name: Remove apt lock file 2
+#  file:
+#    state: absent
+#    path: "/var/lib/dpkg/lock-frontend"
     
 
 - name: Install python pip
