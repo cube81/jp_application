@@ -82,10 +82,19 @@
   become_method: sudo
   command: "dpkg --configure -a"
 
+- name: packages | ensure apt list dir exists
+  file:
+    path: /var/lib/apt/lists/
+    state: directory
+    mode: 0755
+
 - name: Update APT Cache
   apt:
     update_cache: yes
     force_apt_get: yes
+  retries: 20
+  delay: 20
+  #until: apt_action is success
 
 - name: Remove apt lock file
   file:
