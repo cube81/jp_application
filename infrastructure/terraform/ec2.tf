@@ -32,7 +32,8 @@ resource "aws_instance" "jp" {
       chmod u+w /var/cache/apt/archives/lock
       sudo chown ubuntu /var/lib/apt/lists/lock
       chmod u+w /var/lib/apt/lists/lock
-      sudo apt-get update && sudo apt-get install tzdata python3-apt && sudo rm /var/lib/apt/lists/lock && sudo rm /var/lib/apt/lists/lock-frontend
+      sudo apt-get update && sudo apt-get install tzdata python3-apt python3-pip python3-dev python3-apt
+      sudo rm /var/lib/apt/lists/lock && sudo rm /var/lib/apt/lists/lock-frontend
     EOF
 }
 

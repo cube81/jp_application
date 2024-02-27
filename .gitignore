@@ -37,6 +37,8 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+infrastructure/ansible/*.jar
+
 **/target/*
 
 # End of https://www.toptal.com/developers/gitignore/api/terraform
