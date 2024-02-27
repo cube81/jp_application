@@ -52,6 +52,13 @@
     update_cache: yes
   become: true
 
+- name: packages | ensure apt list dir exists 3
+  file:
+    path: /var/lib/apt/lists/
+    state: directory
+    mode: 0755
+  command: "sudo rm -f /var/lib/apt/lists/lock"
+
 - name: Install python apt
   become: true
   become_method: sudo
