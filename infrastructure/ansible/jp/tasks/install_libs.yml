@@ -82,35 +82,49 @@
   become_method: sudo
   command: "dpkg --configure -a"
 
-- name: packages | ensure apt list dir exists
-  file:
-    path: /var/lib/apt/lists/
-    state: directory
-    mode: 0755
-
-- name: Update APT Cache
-  apt:
+- name: Update apt Cache
+  apt: 
     update_cache: yes
     force_apt_get: yes
-  retries: 20
-  delay: 20
-  #until: apt_action is success
 
-- name: Remove apt lock file
-  file:
-    state: absent
-    path: "/var/lib/dpkg/lock"
+- name: Wait for APT Lock
+  shell:  "while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;"
 
-- name: Upgrade all packages to the latest version
+- name: Install Apt Packages
   apt:
-    name: "*"
-    state: latest
+    name: "{{ apt_packages }}"
+    state: present
     force_apt_get: yes
 
-- name: Correction of dmg dpgk 4
-  become: true
-  become_method: sudo
-  command: "dpkg --configure -a"
+# - name: packages | ensure apt list dir exists
+#   file:
+#     path: /var/lib/apt/lists/
+#     state: directory
+#     mode: 0755
+
+# - name: Update APT Cache
+#   apt:
+#     update_cache: yes
+#     force_apt_get: yes
+#   retries: 20
+#   delay: 20
+#   #until: apt_action is success
+
+# - name: Remove apt lock file
+#   file:
+#     state: absent
+#     path: "/var/lib/dpkg/lock"
+
+# - name: Upgrade all packages to the latest version
+#   apt:
+#     name: "*"
+#     state: latest
+#     force_apt_get: yes
+
+# - name: Correction of dmg dpgk 4
+#   become: true
+#   become_method: sudo
+#   command: "dpkg --configure -a"
 
 - name: Install python apt
   become: true
@@ -119,6 +133,8 @@
     pkg:
       - python3-apt
   connection: local
+  # update_cache: yes
+  # force_apt_get: yes
 
 - name: Install python pip
   become: true
