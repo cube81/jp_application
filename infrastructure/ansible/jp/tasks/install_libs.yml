@@ -27,11 +27,11 @@
     minutes: 1
 
   #/var/lib/apt/lists/lock
-#- name: packages | ensure apt list dir exists
-#  file:
-#    path: /var/lib/apt/lists/
-#    state: directory
-#    mode: 0755
+- name: packages | ensure apt list dir exists
+  file:
+    path: /var/lib/apt/lists/
+    state: directory
+    mode: 0755
 
 - name: Update apt list
   apt:
@@ -40,12 +40,17 @@
 
 - name: Waiting for previous processes are finished 3
   pause:
-    minutes: 3
+    minutes: 1
 
 - name: Correction of dmg dpgk 3
   become: true
   become_method: sudo
   command: "dpkg --configure -a"
+
+- name: Update apt list 3
+  apt:
+    update_cache: yes
+  become: true
 
 - name: Install python apt
   become: true
