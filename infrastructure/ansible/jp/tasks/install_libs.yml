@@ -84,8 +84,8 @@
 #     update_cache: yes
 #     force_apt_get: yes
 
-- name: Wait for APT Lock
-  shell:  "while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;"
+# - name: Wait for APT Lock
+#   shell:  "while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;"
 
 # - name: packages | ensure apt list dir exists
 #   file:
@@ -122,11 +122,29 @@
   become_method: sudo
   command: "dpkg --configure -a"
 
-- name: Install p3-apt
+- name: Install python apt
   become: true
   become_method: sudo
   command: "apt-get -y install python3-apt"
 
+- name: Correction of dmg dpgk 4
+  become: true
+  become_method: sudo
+  command: "dpkg --configure -a"
+
+- name: wait until apt lock is released
+  shell: lsof -w /var/lib/apt/lists/lock | wc -l
+  register: lock
+  until: lock.stdout == "0"
+  retries: 20
+  delay: 20
+
+- name: wait until apt lock_frontend is released
+  shell: lsof -w /var/lib/dpkg/lock-frontend | wc -l
+  register: lock_frontend
+  until: lock_frontend.stdout == "0"
+  retries: 20
+  delay: 20
 
 - name: Install python pip
   become: true
@@ -135,13 +153,11 @@
     pkg:
       - python3-pip
       - python3-dev
-  #    - python3-apt
   connection: local
   register: apt_action
   retries: 100
   delay: 20
-  until: apt_action is success
-  # or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
 
 - name: Install Python Libs
