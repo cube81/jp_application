@@ -67,15 +67,15 @@
   shell: lsof -w /var/lib/apt/lists/lock | wc -l
   register: lock
   until: lock.stdout == "0"
-  retries: 10
-  delay: 10
+  retries: 20
+  delay: 20
 
 - name: wait until apt lock_frontend is released
   shell: lsof -w /var/lib/dpkg/lock-frontend | wc -l
   register: lock_frontend
   until: lock_frontend.stdout == "0"
-  retries: 10
-  delay: 10
+  retries: 20
+  delay: 20
 
 - name: Correction of dmg dpgk 3
   become: true
@@ -101,7 +101,9 @@
   connection: local
   register: apt_action
   retries: 100
-  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+  delay: 20
+  until: apt_action is success
+  # or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
 
 - name: Install Python Libs
