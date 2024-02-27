@@ -21,6 +21,11 @@
   become: true
   become_method: sudo
   command: "apt-get -y install tzdata"
+
+- name: Waiting for previous processes are finished 2
+  pause:
+    minutes: 1
+
   #/var/lib/apt/lists/lock
 #- name: packages | ensure apt list dir exists
 #  file:
