@@ -82,6 +82,10 @@
   become_method: sudo
   command: "dpkg --configure -a"
 
+- name: Waiting for previous processes are finished 2
+  pause:
+    minutes: 10
+
 - name: Install python apt
   become: true
   become_method: sudo
