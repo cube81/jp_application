@@ -38,6 +38,14 @@
     update_cache: yes
   become: true
 
+- name: Install python apt
+  become: true
+  become_method: sudo
+  apt:
+    pkg:
+      - python3-apt
+  connection: local
+
 - name: Install python pip
   become: true
   become_method: sudo
