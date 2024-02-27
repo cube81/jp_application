@@ -90,12 +90,6 @@
 - name: Wait for APT Lock
   shell:  "while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;"
 
-- name: Install Apt Packages
-  apt:
-    name: "{{ apt_packages }}"
-    state: present
-    force_apt_get: yes
-
 # - name: packages | ensure apt list dir exists
 #   file:
 #     path: /var/lib/apt/lists/
