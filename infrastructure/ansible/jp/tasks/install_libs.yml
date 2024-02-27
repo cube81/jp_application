@@ -36,6 +36,7 @@
 - name: Update apt list
   apt:
     update_cache: yes
+  become: true
 
 - name: Install python pip
   become: true
