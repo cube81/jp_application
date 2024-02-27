@@ -42,6 +42,11 @@
   pause:
     minutes: 3
 
+- name: Correction of dmg dpgk 3
+  become: true
+  become_method: sudo
+  command: "dpkg --configure -a"
+
 - name: Install python apt
   become: true
   become_method: sudo
