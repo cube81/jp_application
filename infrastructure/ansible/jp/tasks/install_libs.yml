@@ -38,6 +38,10 @@
     update_cache: yes
   become: true
 
+- name: Waiting for previous processes are finished 3
+  pause:
+    minutes: 3
+
 - name: Install python apt
   become: true
   become_method: sudo
