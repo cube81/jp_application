@@ -8,60 +8,74 @@
 #  become: true
 
 
-- name: Waiting for previous processes are finished
-  pause:
-    minutes: 1
+# - name: Waiting for previous processes are finished
+#   pause:
+#     minutes: 1
 
-- name: Correction of dmg dpgk
-  become: true
-  become_method: sudo
-  command: "dpkg --configure -a"
+# - name: Correction of dmg dpgk
+#   become: true
+#   become_method: sudo
+#   command: "dpkg --configure -a"
     
-- name: Install tzdata
-  become: true
-  become_method: sudo
-  command: "apt-get -y install tzdata"
+# - name: Install tzdata
+#   become: true
+#   become_method: sudo
+#   command: "apt-get -y install tzdata"
 
-- name: Waiting for previous processes are finished 2
-  pause:
-    minutes: 1
+# - name: Waiting for previous processes are finished 2
+#   pause:
+#     minutes: 1
 
-  #/var/lib/apt/lists/lock
-- name: packages | ensure apt list dir exists
-  file:
-    path: /var/lib/apt/lists/
-    state: directory
-    mode: 0755
+#   #/var/lib/apt/lists/lock
+# - name: packages | ensure apt list dir exists
+#   file:
+#     path: /var/lib/apt/lists/
+#     state: directory
+#     mode: 0755
 
-- name: Update apt list
-  apt:
-    update_cache: yes
-  become: true
+# - name: Update apt list
+#   apt:
+#     update_cache: yes
+#   become: true
 
-- name: Waiting for previous processes are finished 3
-  pause:
-    minutes: 1
+# - name: Waiting for previous processes are finished 3
+#   pause:
+#     minutes: 1
 
-- name: Correction of dmg dpgk 3
-  become: true
-  become_method: sudo
-  command: "dpkg --configure -a"
+# - name: Correction of dmg dpgk 3
+#   become: true
+#   become_method: sudo
+#   command: "dpkg --configure -a"
 
-- name: Update apt list 3
-  apt:
-    update_cache: yes
-  become: true
+# - name: Update apt list 3
+#   apt:
+#     update_cache: yes
+#   become: true
 
-- name: packages | ensure apt list dir exists 3
-  file:
-    path: /var/lib/apt/lists/
-    state: directory
-    mode: 0755
+# - name: packages | ensure apt list dir exists 3
+#   file:
+#     path: /var/lib/apt/lists/
+#     state: directory
+#     mode: 0755
 
-- name: Removal of shitty locks
-  become: true
-  become_method: sudo
-  command: "sudo rm -f /var/lib/apt/lists/lock"
+# - name: Removal of shitty locks
+#   become: true
+#   become_method: sudo
+#   command: "sudo rm -f /var/lib/apt/lists/lock"
+
+- name: wait until apt lock is released
+  shell: lsof -w /var/lib/apt/lists/lock | wc -l
+  register: lock
+  until: lock.stdout == "0"
+  retries: 10
+  delay: 10
+
+- name: wait until apt lock_frontend is released
+  shell: lsof -w /var/lib/dpkg/lock-frontend | wc -l
+  register: lock_frontend
+  until: lock_frontend.stdout == "0"
+  retries: 10
+  delay: 10
 
 - name: Install python apt
   become: true
