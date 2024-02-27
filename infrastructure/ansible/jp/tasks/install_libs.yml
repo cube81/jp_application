@@ -82,10 +82,10 @@
   become_method: sudo
   command: "dpkg --configure -a"
 
-- name: Update apt Cache
-  apt: 
-    update_cache: yes
-    force_apt_get: yes
+# - name: Update apt Cache
+#   apt: 
+#     update_cache: yes
+#     force_apt_get: yes
 
 - name: Wait for APT Lock
   shell:  "while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;"
