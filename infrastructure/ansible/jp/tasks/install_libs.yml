@@ -57,6 +57,10 @@
     path: /var/lib/apt/lists/
     state: directory
     mode: 0755
+
+- name: Removal of shitty locks
+  become: true
+  become_method: sudo
   command: "sudo rm -f /var/lib/apt/lists/lock"
 
 - name: Install python apt
