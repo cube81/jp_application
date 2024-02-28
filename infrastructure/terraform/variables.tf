@@ -12,3 +12,4 @@ variable "ssh_key_path" {
   type        = string
   description = "../jp-max.pem"
 }
+
