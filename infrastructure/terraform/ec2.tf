@@ -25,6 +25,7 @@ resource "aws_instance" "jp" {
       #!/bin/bash 
       echo "ubuntu ALL=NOPASSWD: /usr/bin/apt-get install" >> /etc/sudoers
       echo "ubuntu ALL=NOPASSWD: /var/lib/dpkg/lock-frontend" >> /etc/sudoers
+      apt-get -y install python3-apt
       sudo chown ubuntu /var/lib/dpkg/lock-frontend
       chmod u+w /var/lib/dpkg/lock-frontend
       sudo chown ubuntu /var/lib/dpkg/lock
