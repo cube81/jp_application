@@ -9,16 +9,15 @@
   become_method: sudo
   command: "dpkg --configure -a"
 
-- name: Waiting for previous processes are finished 3
+- name: Waiting for previous processes are finished
   pause:
-    minutes: 1
+    minutes: 2
 
 - name: Install python pip
   become: true
   become_method: sudo
   apt:
     pkg:
-#      - python3-apt
       - python3-pip
       - python3-dev
   connection: local
