@@ -122,10 +122,10 @@
   become_method: sudo
   command: "dpkg --configure -a"
 
-- name: Install python apt
-  become: true
-  become_method: sudo
-  command: "apt-get -y install python3-apt"
+# - name: Install python apt
+#   become: true
+#   become_method: sudo
+#   command: "apt-get -y install python3-apt"
 
 - name: Correction of dmg dpgk 4
   become: true
