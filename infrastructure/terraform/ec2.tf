@@ -10,9 +10,9 @@ resource "aws_instance" "jp" {
   key_name               = var.aws_key_name
   vpc_security_group_ids = [aws_security_group.sg-pub.id]
   subnet_id              = aws_subnet.pub_subnet[count.index].id
-  itemcnt_1              = var.availability_zone + 1
+  #itemcnt_1              = var.availability_zone + 1
   tags = {
-    Name = "Ec2 made with tf- ".itemcnt_1
+    Name = "Ec2 made with tf "
   }
 
   connection {
