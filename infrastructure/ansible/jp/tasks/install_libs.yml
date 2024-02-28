@@ -1,8 +1,8 @@
 ---
-# - name: Install python apt
-#   become: true
-#   become_method: sudo
-#   command: "apt-get -y install python3-apt"
+- name: Install python apt
+  become: true
+  become_method: sudo
+  command: "apt-get -y install python3-apt"
 
 - name: Install python pip
   become: true
