@@ -18,7 +18,8 @@ pipeline {
     stages {
         stage('Clear running app') {
            steps {
-               sh 'docker rm -f jpapp || true'
+                sh 'ansible --version'
+                sh 'docker rm -f jpapp || true'
            }
         }
         stage('Get Code') {
