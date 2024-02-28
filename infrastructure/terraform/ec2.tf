@@ -3,7 +3,7 @@ resource "aws_instance" "jp" {
 #  ami                    = "ami-09d56f8956ab235b3"
 #  ami                    = "ami-04505e74c0741db8d"
 #  ami                     = "ami-0c7217cdde317cfec"
-  ami = "ami-01f53c89c6e506290" #python
+  ami = "ami-06aa3f7caf3a30282"
 
   instance_type          = "t2.micro"
   availability_zone      = var.availability_zones[count.index]
@@ -11,7 +11,7 @@ resource "aws_instance" "jp" {
   vpc_security_group_ids = [aws_security_group.sg-pub.id]
   subnet_id              = aws_subnet.pub_subnet[count.index].id
   tags = {
-    Name = "Ec2 made with tf "
+    Name = "Ec2 made with tf"
   }
 
   connection {

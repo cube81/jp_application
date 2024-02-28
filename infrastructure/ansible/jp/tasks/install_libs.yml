@@ -1,8 +1,21 @@
 ---
+# - name: Install python apt
+#   become: true
+#   become_method: sudo
+#   command: "apt-get -y install python3-apt"
+
+
 - name: Install python apt
   become: true
   become_method: sudo
-  command: "apt-get -y install python3-apt"
+  apt:
+    pkg:
+      - python3-apt
+  connection: local
+  register: apt_action
+  retries: 100
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+
 
 - name: Install python pip
   become: true
