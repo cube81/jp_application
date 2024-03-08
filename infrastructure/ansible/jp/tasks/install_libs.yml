@@ -11,7 +11,7 @@
 
 - name: Waiting for previous processes are finished
   pause:
-    minutes: 1
+    minutes: 3
 
 - name: Install python pip
   become: true
